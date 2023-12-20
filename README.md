@@ -8,8 +8,9 @@ npm install
 ### Compiles and hot-reloads for development
 ```
 npm run serve
+```
 
-### Run Test
+### Run the test
 ```
 npm run test:unit
 ```
