@@ -1,27 +1,14 @@
 <template>
   <div>
     <h2>Simple Chat</h2>
-    <button @click="showMoreClicked" v-show="isShowMoreShowed">
-      Show more
-    </button>
-    <!-- <ul>
+    <button @click="showMoreClicked" v-show="isShowMoreShowed">Show more</button>
+    <ul>
       <li :key="chat.message" v-for="chat in showMessage">
         {{ chat.user }} : {{ chat.message }}
       </li>
-    </ul> -->
-    <v-list class="overflow-y-auto" max-height="500">
-      <v-list-item :key="item.message" v-for="item in chats">
-        {{ item.message }} " "
-      </v-list-item>
-      <v-skeleton-loader
-        v-if="moreDataToAvailable"
-        v-intersect="loadNextPage"
-        type="list-item@5"
-      />
-    </v-list>
+    </ul>
     <input v-model="message" />
-    <button @click="sendMessage">Send</button>
-    {{ chats }}
+    <button id="sendBtn" @click="sendMessage">Send</button>
   </div>
 </template>
 
@@ -33,41 +20,41 @@ export default {
       message: "",
       user: "",
       chats: [],
-      more: 1,
+      more: 1
     };
   },
   methods: {
     sendMessage() {
       const newMessage = {
         message: this.message,
-        user: this.user,
-      };
-      this.chats.push(newMessage);
-      localStorage.chats = JSON.stringify(this.chats);
+        user: this.user
+      }
+      this.chats.push(newMessage)
+      localStorage.chats = JSON.stringify(this.chats)
       this.message = "";
     },
     onStorageUpdate(event) {
       if (event.key === "chats") {
-        this.chats = JSON.parse(event.newValue);
+        this.chats = JSON.parse(event.newValue)
       }
     },
     showMoreClicked() {
-      this.more++;
-    },
+      this.more++
+    }
   },
   computed: {
     showMessage() {
-      return this.chats.slice(-5 * this.more);
+      return this.chats.slice(-5*this.more)
     },
     isShowMoreShowed() {
-      return this.more * 25 < this.chats.length;
-    },
+      return this.more * 5 < this.chats.length
+    }
   },
   mounted() {
     if (!this.user) this.user = prompt("Input your name: ");
-    if (localStorage.chats) this.chats = JSON.parse(localStorage.chats);
+    if (localStorage.chats) this.chats = JSON.parse(localStorage.chats)
     window.addEventListener("storage", this.onStorageUpdate);
-  },
+  }
 };
 </script>
 
